@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class NewsViewModel : ViewModel() {
 
     private val _articles = MutableLiveData<List<Article>>()
-    val articles : LiveData<List<Article>> = _articles
+    val articles : MutableLiveData<List<Article>> = _articles
 
     init {
         fetchNewsTopHeadlines()
