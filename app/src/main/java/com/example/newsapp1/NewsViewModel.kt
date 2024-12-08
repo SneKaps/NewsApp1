@@ -1,5 +1,6 @@
 package com.example.newsapp1
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,12 +13,13 @@ import kotlinx.coroutines.launch
 class NewsViewModel : ViewModel() {
 
     private val _articles = MutableLiveData<List<Article>>()
-    val articles : MutableLiveData<List<Article>> = _articles
+    val articles : LiveData<List<Article>> = _articles
 
     init {
         fetchNewsTopHeadlines()
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun fetchNewsTopHeadlines(category: String = "GENERAL") {
         viewModelScope.launch(Dispatchers.IO) {
             val response = NewsAPIInstance.api.getHeadlines(
@@ -29,6 +31,7 @@ class NewsViewModel : ViewModel() {
         }
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun fetchEverythingWithQuery(query : String) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = NewsAPIInstance.api.getEverything(
