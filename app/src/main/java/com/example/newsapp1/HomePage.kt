@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -34,15 +33,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
-import com.kwabenaberko.newsapilib.models.Article
+import com.example.newsapp1.data.Article
 
 @Composable
 fun HomePage(newsViewModel: NewsViewModel, navController: NavHostController){
@@ -64,14 +61,13 @@ fun HomePage(newsViewModel: NewsViewModel, navController: NavHostController){
 
 }
 
-
 @Composable
 fun ArticleItem(article: Article, navController: NavHostController){
     Card(
         modifier = Modifier.padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         onClick = {
-            navController.navigate(NewsArticleScreen(article.url))
+            navController.navigate(NewsArticleScreen(article.url ?: ""))
         }
     ){
         Row(
@@ -81,7 +77,7 @@ fun ArticleItem(article: Article, navController: NavHostController){
             verticalAlignment = Alignment.CenterVertically
         ){
             AsyncImage(
-                model = article.urlToImage ?:"https://thumbs.dreamstime.com/b/web-324671699.jpg",
+                model = article.imageUrl ?:"https://thumbs.dreamstime.com/b/web-324671699.jpg",
                 contentDescription = "Article to Image",
                 modifier = Modifier
                     .size(80.dp)
@@ -95,12 +91,12 @@ fun ArticleItem(article: Article, navController: NavHostController){
                     .padding(start = 8.dp)
             ){
                 Text(
-                    text = article.title,
+                    text = article.title ?: "",
                     fontWeight = FontWeight.Bold,
                     maxLines = 3
                 )
                 Text(
-                    text = article.source.name,
+                    text = article.source.name ?: "",
                     fontSize = 14.sp,
                     maxLines = 1
                 )
